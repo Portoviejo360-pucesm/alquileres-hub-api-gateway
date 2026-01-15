@@ -13,46 +13,55 @@ const SERVICE_URL = services.disponibilidad.url;
  */
 
 /**
- * GET /api/properties
+ * GET /api/propiedades
  * Lista todas las propiedades disponibles
  */
-router.get('/properties', async (req, res) => {
+router.get('/propiedades', async (req, res) => {
   const result = await proxy.get(SERVICE_URL, '/propiedades', req.query);
   return proxyResponse(res, result);
 });
 
 /**
- * GET /api/properties/:id
+ * GET /api/propiedades/:id
  * Obtener una propiedad por ID
  */
-router.get('/properties/:id', async (req, res) => {
+router.get('/propiedades/:id', async (req, res) => {
   const result = await proxy.get(SERVICE_URL, `/propiedades/${req.params.id}`);
   return proxyResponse(res, result);
 });
 
 /**
- * POST /api/properties
+ * POST /api/propiedades
  * Crear nueva propiedad
  */
-router.post('/properties', async (req, res) => {
+router.post('/propiedades', async (req, res) => {
   const result = await proxy.post(SERVICE_URL, '/propiedades', req.body);
   return proxyResponse(res, result);
 });
 
 /**
- * PUT /api/properties/:id
+ * PUT /api/propiedades/:id
  * Actualizar propiedad completa
  */
-router.put('/properties/:id', async (req, res) => {
+router.put('/propiedades/:id', async (req, res) => {
   const result = await proxy.put(SERVICE_URL, `/propiedades/${req.params.id}`, req.body);
   return proxyResponse(res, result);
 });
 
 /**
- * PUT /api/properties/:id/status
+ * DELETE /api/propiedades/:id
+ * Eliminar propiedad
+ */
+router.delete('/propiedades/:id', async (req, res) => {
+  const result = await proxy.del(SERVICE_URL, `/propiedades/${req.params.id}`);
+  return proxyResponse(res, result);
+});
+
+/**
+ * PUT /api/propiedades/:id/estado
  * Cambiar estado de propiedad (emite WebSocket en el microservicio)
  */
-router.put('/properties/:id/status', async (req, res) => {
+router.put('/propiedades/:id/estado', async (req, res) => {
   const result = await proxy.put(SERVICE_URL, `/propiedades/${req.params.id}/estado`, req.body);
   return proxyResponse(res, result);
 });
@@ -64,37 +73,37 @@ router.put('/properties/:id/status', async (req, res) => {
  */
 
 /**
- * GET /api/properties/:id/owner
+ * GET /api/propiedades/:id/propietario
  * Obtener propietario de una propiedad
  */
-router.get('/properties/:id/owner', async (req, res) => {
+router.get('/propiedades/:id/propietario', async (req, res) => {
   const result = await proxy.get(SERVICE_URL, `/propiedades/${req.params.id}/propietario`);
   return proxyResponse(res, result);
 });
 
 /**
- * GET /api/properties/:id/verified-profile
+ * GET /api/propiedades/:id/perfil-verificado
  * Verificar si el propietario está verificado
  */
-router.get('/properties/:id/verified-profile', async (req, res) => {
+router.get('/propiedades/:id/perfil-verificado', async (req, res) => {
   const result = await proxy.get(SERVICE_URL, `/propiedades/${req.params.id}/perfil-verificado`);
   return proxyResponse(res, result);
 });
 
 /**
- * GET /api/properties/:id/photos
+ * GET /api/propiedades/:id/fotos
  * Obtener fotos de una propiedad
  */
-router.get('/properties/:id/photos', async (req, res) => {
+router.get('/propiedades/:id/fotos', async (req, res) => {
   const result = await proxy.get(SERVICE_URL, `/propiedades/${req.params.id}/fotos`);
   return proxyResponse(res, result);
 });
 
 /**
- * GET /api/properties/:id/services
+ * GET /api/propiedades/:id/servicios
  * Obtener servicios de una propiedad
  */
-router.get('/properties/:id/services', async (req, res) => {
+router.get('/propiedades/:id/servicios', async (req, res) => {
   const result = await proxy.get(SERVICE_URL, `/propiedades/${req.params.id}/servicios`);
   return proxyResponse(res, result);
 });
@@ -106,29 +115,12 @@ router.get('/properties/:id/services', async (req, res) => {
  */
 
 /**
- * GET /api/search
+ * GET /api/filtros/propiedades
  * Búsqueda con filtros
  * Query params: estado, publico_objetivo_id, precio_min, precio_max
  */
-router.get('/search', async (req, res) => {
+router.get('/filtros/propiedades', async (req, res) => {
   const result = await proxy.get(SERVICE_URL, '/filtros/propiedades', req.query);
-  return proxyResponse(res, result);
-});
-
-/**
- * POST /api/search/advanced
- * Búsqueda avanzada con filtros en body
- */
-router.post('/search/advanced', async (req, res) => {
-  // Convertir body a query params para el microservicio
-  const params = {
-    estado: req.body.estado,
-    publico_objetivo_id: req.body.publico_objetivo_id,
-    precio_min: req.body.precio_min,
-    precio_max: req.body.precio_max
-  };
-  
-  const result = await proxy.get(SERVICE_URL, '/filtros/propiedades', params);
   return proxyResponse(res, result);
 });
 

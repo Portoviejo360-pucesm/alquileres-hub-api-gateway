@@ -4,11 +4,6 @@ const router = express.Router();
 // Importar rutas de cada módulo
 const disponibilidadRoutes = require('./disponibilidad');
 
-// TODO: Importar cuando existan
-// const propiedadesRoutes = require('./propiedades');
-// const inquilinosRoutes = require('./inquilinos');
-// const reportesRoutes = require('./reportes');
-
 /**
  * Health check del gateway
  */
@@ -32,8 +27,8 @@ router.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: {
       health: '/api/health',
-      properties: '/api/properties',
-      search: '/api/search'
+      propiedades: '/api/propiedades',
+      filtros: '/api/filtros/propiedades'
     }
   });
 });
@@ -46,15 +41,5 @@ router.get('/', (req, res) => {
 
 // Módulo 4: Disponibilidad y Búsqueda (puerto 8004)
 router.use('/', disponibilidadRoutes);
-
-// TODO: Módulo 1 - Propiedades/Arrendadores (puerto 8001)
-// router.use('/landlords', propiedadesRoutes);
-
-// TODO: Módulo 2 - Inquilinos y Contratos (puerto 8002)
-// router.use('/tenants', inquilinosRoutes);
-// router.use('/contracts', inquilinosRoutes);
-
-// TODO: Módulo 3 - Reportes y Mantenimiento (puerto 8003)
-// router.use('/reports', reportesRoutes);
 
 module.exports = router;
