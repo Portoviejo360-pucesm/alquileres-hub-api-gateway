@@ -6,7 +6,7 @@ const router = express.Router();
 
 const createProxy = (pathPrefix) => {
     return createProxyMiddleware({
-        target: propiedades, // http://localhost:8001
+        target: propiedades.url, // http://localhost:8001
         changeOrigin: true,
         pathRewrite: {
             '^/': `${pathPrefix}/`
@@ -15,7 +15,12 @@ const createProxy = (pathPrefix) => {
             if (req.headers['x-user-id']) {
                 proxyReq.setHeader('x-user-id', req.headers['x-user-id']);
             }
-        }
+        },
+        onError: (err, req, res) => {
+            console.error('🔥 Proxy Error:', err);
+            res.status(500).json({ error: 'Proxy Error', details: err.message });
+        },
+        logLevel: 'debug'
     });
 };
 

@@ -25,7 +25,7 @@ const createClient = (baseURL) => {
  */
 const proxyRequest = async (serviceUrl, method, path, { data, params, headers } = {}) => {
   const client = createClient(serviceUrl);
-  
+
   try {
     const response = await client({
       method,
@@ -38,14 +38,17 @@ const proxyRequest = async (serviceUrl, method, path, { data, params, headers } 
         'X-Request-Time': new Date().toISOString()
       }
     });
-    
+
     return {
       success: true,
       status: response.status,
       data: response.data
     };
-    
+
   } catch (error) {
+    console.error(`Status: ${error.response?.status} | Error: ${error.message}`);
+    if (error.request) console.error('No response received from:', serviceUrl + path);
+
     // Si el microservicio respondió con error
     if (error.response) {
       return {
@@ -55,7 +58,7 @@ const proxyRequest = async (serviceUrl, method, path, { data, params, headers } 
         error: error.response.data?.message || 'Error del microservicio'
       };
     }
-    
+
     // Si no hubo respuesta (timeout, conexión rechazada, etc)
     if (error.request) {
       return {
@@ -65,7 +68,7 @@ const proxyRequest = async (serviceUrl, method, path, { data, params, headers } 
         details: error.code
       };
     }
-    
+
     // Error de configuración
     return {
       success: false,
@@ -79,31 +82,31 @@ const proxyRequest = async (serviceUrl, method, path, { data, params, headers } 
 /**
  * Helper para GET
  */
-const get = (serviceUrl, path, params, headers) => 
+const get = (serviceUrl, path, params, headers) =>
   proxyRequest(serviceUrl, 'GET', path, { params, headers });
 
 /**
  * Helper para POST
  */
-const post = (serviceUrl, path, data, headers) => 
+const post = (serviceUrl, path, data, headers) =>
   proxyRequest(serviceUrl, 'POST', path, { data, headers });
 
 /**
  * Helper para PUT
  */
-const put = (serviceUrl, path, data, headers) => 
+const put = (serviceUrl, path, data, headers) =>
   proxyRequest(serviceUrl, 'PUT', path, { data, headers });
 
 /**
  * Helper para DELETE
  */
-const del = (serviceUrl, path, headers) => 
+const del = (serviceUrl, path, headers) =>
   proxyRequest(serviceUrl, 'DELETE', path, { headers });
 
 /**
  * Helper para PATCH
  */
-const patch = (serviceUrl, path, data, headers) => 
+const patch = (serviceUrl, path, data, headers) =>
   proxyRequest(serviceUrl, 'PATCH', path, { data, headers });
 
 module.exports = {

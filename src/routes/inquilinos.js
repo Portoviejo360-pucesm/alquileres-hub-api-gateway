@@ -7,7 +7,7 @@ const router = express.Router();
 // Helper for proxy config
 const createProxy = (pathPrefix) => {
     return createProxyMiddleware({
-        target: inquilinos,
+        target: inquilinos.url,
         changeOrigin: true,
         pathRewrite: {
             // Express strips the mounted path (e.g. /tenants), leaving just /... or /

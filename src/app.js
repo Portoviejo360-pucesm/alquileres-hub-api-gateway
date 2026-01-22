@@ -26,8 +26,9 @@ app.use(helmet());
 app.use(corsMiddleware);
 
 // Parse JSON
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
+// Parse JSON
+// app.use(express.json({ limit: '10mb' }));
+// app.use(express.urlencoded({ extended: true }));
 
 // Logging
 if (process.env.NODE_ENV !== 'test') {

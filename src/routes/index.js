@@ -43,14 +43,14 @@ router.get('/', (req, res) => {
  * ===================================
  */
 
+// Módulo 4: Disponibilidad y Búsqueda (Prioridad para /propiedades)
+router.use('/', disponibilidadRoutes);
+
 // Módulo 1: Propiedades (Arrendadores y Propiedades)
 router.use('/propiedades', propiedadesRoutes);
 router.use('/auth', authRoutes);
 
 // Módulo 2: Inquilinos y Contratos (Tu Módulo)
 router.use('/', inquilinosRoutes);
-
-// Módulo 4: Disponibilidad y Búsqueda (puerto 8004)
-router.use('/', disponibilidadRoutes);
 
 module.exports = router;
